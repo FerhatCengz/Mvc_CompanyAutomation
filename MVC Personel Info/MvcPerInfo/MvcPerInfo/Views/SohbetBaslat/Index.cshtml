@@ -1,0 +1,96 @@
+﻿@using MvcPerInfo.Models.Entity
+@model MvcPerInfo.Models.Entity.Tbl_MsjKad
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+
+@{
+    string gonderenKad = Session["KAD"].ToString();
+    string aliciKad = ViewBag.idal;
+}
+
+
+<form method="post">
+    <div class="card card-primary card-outline">
+        <br />
+        <div class="row">
+            <div class="col-md-5 ml-5">
+                <br />
+                <img src="@ViewBag.resimYolu" class="w-25 rounded-circle" />
+                <p class="lead mt-4">ADI : @ViewBag.AD</p>
+                <p class="lead">SOYADI : @ViewBag.SOYAD</p>
+            </div>
+
+            <div class="col-md-6">
+                @*@Html.TextBoxFor(x => x.Gonderen, new { @class = "form-control", @id = "gonderen" })*@
+                <input class="form-control mt-5" id="gonderen" name="Gonderen" type="text" value="@gonderenKad" disabled>
+                <br />
+                @*@Html.TextBoxFor(x => x.Alici, new { @class = "form-control mb-5", @id = "alici" })*@
+                <input class="form-control" id="alici" name="Alici" type="text" value="@aliciKad" disabled>
+
+            </div>
+        </div>
+
+        @Html.TextAreaFor(x => x.MesajIcerigi, new { @class = "form-control", @id = "text", @rows = 14, @cols = 10, @placeholder = "Mesaj İçeriğinizi Giriniz" })
+
+
+    </div>
+    <div class="d-flex justify-content-center">
+        <a id="selam" class=" btn btn-primary text-white mt-5 w-50 rounded-pill">Gönder</a>
+
+    </div>
+</form>
+
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+<script>
+    let getir = document.getElementById("text");
+
+    $("#selam").click(function () {
+
+        let text = $("#text").val();
+        let gonderen = $("#gonderen").val();
+        let alici = $("#alici").val();
+        var requestData = {
+            MesajIcerigi: text,
+            Gonderen: gonderen,
+            Alici: alici,
+        }
+
+        if (getir.value.length > 3) {
+            $.ajax({
+                url: "/SohbetBaslat/Index",
+                type: "POST",
+                data: JSON.stringify(requestData),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            });
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Mesajınızı Başarılı Bir Şekilde Gönderildi',
+                confirmButtonText: "Tamam",
+            })
+
+            setTimeout(() => {
+                window.location.href = "/GelenK/GidenMessage/"
+            }, 1250);
+        }
+        else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Boş Bir Mesaj Gönderemezsiniz',
+                confirmButtonText: "Tamam",
+            })
+        }
+
+
+
+    });
+
+
+</script>

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Db_MvcPersonelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Tbl_Admin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KAD" Type="varchar" MaxLength="50" />
+    <Property Name="PASS" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tbl_CalismaTkvm">
+    <Key>
+      <PropertyRef Name="TakvimID" />
+    </Key>
+    <Property Name="TakvimID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserKad" Type="varchar" MaxLength="50" />
+    <Property Name="CalismaGunu" Type="varchar" MaxLength="50" />
+    <Property Name="CaslimaVardiya" Type="varchar" MaxLength="50" />
+    <Property Name="CalismaTarihi" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tbl_Duyuru">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DuyuruBaslik" Type="varchar" MaxLength="50" />
+    <Property Name="DuyuruIcerik" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Tbl_Gunler">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GUNLER" Type="varchar" MaxLength="15" />
+    <Property Name="Vardiya" Type="varchar" MaxLength="10" />
+    <Property Name="Durum" Type="bit" />
+    <Property Name="CalisanKisi" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tbl_Kullanici">
+    <Key>
+      <PropertyRef Name="KAD" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KAD" Type="varchar" MaxLength="70" Nullable="false" />
+    <Property Name="PASS" Type="varchar" MaxLength="8" />
+    <Property Name="ADI" Type="varchar" MaxLength="20" />
+    <Property Name="SOYADI" Type="varchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="ResimYolu" Type="varchar(max)" />
+    <Property Name="ResimAdi" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tbl_MsjKad">
+    <Key>
+      <PropertyRef Name="MesajID" />
+    </Key>
+    <Property Name="MesajID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Gonderen" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Alici" Type="varchar" MaxLength="50" />
+    <Property Name="MesajIcerigi" Type="varchar" MaxLength="500" />
+    <Property Name="Tarih" Type="varchar" MaxLength="50" />
+    <Property Name="Durum" Type="bit" />
+  </EntityType>
+  <EntityContainer Name="Db_MvcPersonelModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Admin" EntityType="Self.Tbl_Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_CalismaTkvm" EntityType="Self.Tbl_CalismaTkvm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Duyuru" EntityType="Self.Tbl_Duyuru" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Gunler" EntityType="Self.Tbl_Gunler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Kullanici" EntityType="Self.Tbl_Kullanici" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_MsjKad" EntityType="Self.Tbl_MsjKad" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

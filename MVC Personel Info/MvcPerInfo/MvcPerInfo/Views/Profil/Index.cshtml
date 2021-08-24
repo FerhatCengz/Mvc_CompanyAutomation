@@ -1,0 +1,80 @@
+﻿@using MvcPerInfo.Models.Entity
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link href="~/Content/cropper.css" rel="stylesheet" />
+<link href="~/Source/dropzone/dropzone.css" rel="stylesheet" />
+<link href="~/Source/sweetalert2.min.css" rel="stylesheet" />
+<style>
+    #mydropzone {
+        margin-left: 50px;
+        max-width: 300px;
+        height: 200px;
+        border: dashed;
+    }
+</style>
+<h2>Personel Bilgi</h2>
+@{
+    Db_MvcPersonelEntities db = new Db_MvcPersonelEntities();
+    var kullaniciAdi = Session["KAD"].ToString();
+    var getir = db.Tbl_Kullanici.FirstOrDefault(x => x.KAD == kullaniciAdi);
+
+    <form style="margin-top:30px; margin-right:50%; margin-left:100px;">
+
+        <input class="form-control mb-3" value="@getir.KAD" disabled id="Kullanici" />
+        <input class="form-control mb-3" value="@getir.ADI" placeholder="ADINIZ" name="ADI" id="ADI" />
+        <input class="form-control mb-3" value="@getir.SOYADI" placeholder="SOYADINIZ" name="SOYADI" id="SOYADI" />
+        <input class="form-control mb-3" value="@getir.Email" placeholder="Email Adresiniz" name="Email" id="Email" />
+        <input type="password" class="form-control mb-2" placeholder="Parolanız" value="@getir.PASS" id="PASS" />
+        <div style="position:relative; top:-262px; left:100%;">
+            <div class="dropzone" id="mydropzone"></div>
+            <a class="btn btn-warning text-white my-5" style="margin-left:50%;" id="selectDropzone">Bunu Seç</a>
+        </div>
+        <a id="btnPost" class="btn btn-success text-white mt-2" style="position:fixed;top:440px;">Güncelle</a>
+
+    </form>
+
+
+}
+
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Source/dropzone/dropzone.js"></script>
+<script>
+
+    $("#btnPost").click(function () {
+        let Kullanici = document.getElementById("Kullanici");
+        let Name = document.getElementById("ADI");
+        let SurName = document.getElementById("SOYADI");
+        let Email = document.getElementById("Email");
+
+        var requestData = {
+            KAD: $.trim(Kullanici.value),
+            ADI: $.trim(Name.value),
+            SOYADI: $.trim(SurName.value),
+            Email: $.trim(Email.value),
+        }
+
+        $.ajax({
+            url: "/Profil/Index/",
+            type: "POST",
+            data: JSON.stringify(requestData),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+        });
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Başarılı',
+            text: 'Bilgileriniz Başarılı Bir Şekilde Güncellendi',
+            confirmButtonText: "Tamam",
+        })
+
+    });
+
+</script>
+<script src="~/Scripts/cropper.js"></script>
+<script src="~/Source/sweetalert2.all.min.js"></script>
+<script src="~/Scripts/appDropzone.js"></script>

@@ -1,0 +1,71 @@
+﻿@using MvcPerInfo.Models.Entity
+@model MvcPerInfo.Models.Entity.Tbl_MsjKad
+@{
+    ViewBag.Title = "MessageRead";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<body class="hold-transition sidebar-mini">
+    <!-- Navbar -->
+    <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Content Header (Page header) -->
+    <br />
+    <br />
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Mesaj Okuma Paneli</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="mailbox-read-info">
+                            <div class="text-center">
+                                Gönderen : <b>@ViewBag.gonderen</b>
+                                <span class="mailbox-read-time float-right">@ViewBag.gonderenTarih</span>
+
+                            </div>
+
+                        </div>
+                        <div class="mailbox-read-message">
+                            @Html.TextAreaFor(x => x.MesajIcerigi, new { @class = "form-control", @rows = "20", @cols = "10", @disabled = "disabled" })
+                        </div>
+                        <!-- /.mailbox-read-message -->
+                    </div>
+
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+    <div class="d-flex justify-content-center">
+
+        <a class="btn btn-primary text-white w-50" href="/SohbetBaslat/Index/@ViewBag.gonderen" id="replyMessage">Yanıtla</a>
+
+    </div>
+
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script>
+
+
+
+           
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,254 @@
+﻿@using MvcPerInfo.Models.Entity
+@model List<Tbl_Gunler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{int sayac = 0;
+    int sayac2 = 0;
+
+    Db_MvcPersonelEntities db = new Db_MvcPersonelEntities();
+    var kullanici_Session = Session["KAD"].ToString();
+
+    int queryInfo = db.Tbl_Gunler.Count(x => x.CalisanKisi == kullanici_Session);
+
+    string text = "";
+    string text2 = "";
+}
+<h3 class="text-center mb-2 mt-2">Gündüz Vardiyası Çalışma Boşluğu</h3>
+<br />
+
+<button type="button" class="btn btn-info text-white mb-4" data-toggle="modal" data-target="#exampleModal">
+    Çalışma Zamanı Seç
+</button>
+
+<table class="table table-bordered">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>Günler</th>
+            <th>Vardiya Zamanı</th>
+            <th>Doluluk Durumu</th>
+        </tr>
+
+    </thead>
+
+    <tbody class="text-center">
+        @foreach (var x in Model)
+        {
+            sayac++;
+            <tr>
+                <td>@x.GUNLER</td>
+                <td>@x.Vardiya</td>
+                <td class="gunduz">@x.Durum</td>
+
+            </tr>
+            if (sayac == 5)
+            {
+                break;
+            }
+        }
+    </tbody>
+
+
+
+
+</table>
+
+
+
+<br />
+<h3 class="text-center mb-2 mt-2">Gece Vardiyası Çalışma Boşluğu</h3>
+<br />
+
+<table class="table table-bordered">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>Günler</th>
+            <th>Vardiya Zamanı</th>
+            <th>Doluluk Durumu</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody class="text-center">
+        @foreach (var x in Model)
+        {
+            sayac2++;
+
+            if (sayac2 > 5)
+            {
+                <tr>
+                    <td>@x.GUNLER</td>
+                    <td>@x.Vardiya</td>
+                    <td class="gece">@x.Durum</td>
+
+                </tr>
+            }
+        }
+    </tbody>
+
+
+
+
+</table>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Çalışma Zamanı Seç</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                @if (queryInfo == 0)
+                {
+                    text = "3";
+                }
+
+                @if (queryInfo == 1)
+                {
+                    text = "2";
+                }
+
+                @if (queryInfo == 2)
+                {
+                    text = "1";
+                }
+
+                @if (queryInfo == 3)
+                {
+                    text = "0";
+                }
+
+                <label>Kalan Seçim Hakkı : <span id="labelText">@text</span></label>
+
+                <input class="form-control d-none" value="@Session["Kad"]" id="dropKad" />
+                @Html.DropDownList("lst", null, new { @class = "form-control" })
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Sekmeyi Kapt</button>
+                <button type="button" class="btn btn-success" id="sendDropdown">Kayıt Et</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+
+    let getirTrue = document.getElementsByClassName("gunduz");
+    let selamBtn = document.getElementsByClassName("selamBtn");
+    let labelText = document.getElementById("labelText");
+    let dropDown = document.getElementById("lst");
+    let dropKad = document.getElementById("dropKad");
+
+    for (var i = 0; i < 5; i++) {
+        if (getirTrue[i].textContent == "True") {
+            getirTrue[i].textContent = "Boş";
+            getirTrue[i].classList.add("table-success");
+        }
+        else {
+            getirTrue[i].textContent = "Dolu";
+            getirTrue[i].classList.add("table-danger");
+        }
+    }
+
+
+    let getirTrueGece = document.getElementsByClassName("gece");
+
+    for (var i = 0; i < 5; i++) {
+        if (getirTrueGece[i].textContent == "True") {
+            getirTrueGece[i].textContent = "Boş";
+            getirTrueGece[i].classList.add("table-success");
+
+        }
+        else {
+            getirTrueGece[i].textContent = "Dolu";
+            getirTrueGece[i].classList.add("table-danger");
+
+
+        }
+    }
+
+    $("#sendDropdown").click(function () {
+        // Kontrol Vardiya
+
+
+        let kontrolSayi = Number(labelText.textContent);
+
+        if (kontrolSayi === 0) {
+            dropDown.setAttribute("disabled", "disabled");
+
+            Swal.fire({
+                icon: 'error',
+                title: '1 Hafta İçinde 3 günden Fazla Çalışma Etkinliği Seçemezsiniz',
+                confirmButtonText: "Tamam",
+            });
+
+        }
+        else {
+
+            var requestData = {
+                ID: $.trim(dropDown.value),
+                Durum: false,
+                CalisanKisi: $.trim(dropKad.value),
+            }
+
+
+            $.ajax({
+                url: "/PerIslem/Index",
+                type: "POST",
+                data: JSON.stringify(requestData),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            });
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Çalışma Etkinliği Başarı Bir Şekilde Oluşturuldu',
+                confirmButtonText: "Tamam",
+            });
+
+
+            // Çalışma Zamanlarını Çalışma Takvime Gönderme İşlemi
+
+
+
+            var calsimaTakvim = {
+                CalismaGunu: $.trim(dropDown.value),
+            }
+
+            $.ajax({
+                url: "/PerIslem/TkvmCalismaEkle",
+                type: "POST",
+                data: JSON.stringify(calsimaTakvim),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            });
+
+
+        }
+
+    });
+
+
+    //Get olduğunda
+
+    let kontrolSayi = Number(labelText.textContent);
+
+    if (kontrolSayi === 0) {
+        dropDown.setAttribute("disabled", "disabled");
+    }
+
+
+</script>

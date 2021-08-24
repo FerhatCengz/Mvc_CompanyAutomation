@@ -1,0 +1,56 @@
+﻿@using MvcPerInfo.Models.Entity
+@model MvcPerInfo.Models.Entity.Tbl_Kullanici
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_YoneticiLayout.cshtml";
+}
+
+<div class="d-flex justify-content-end mt-2 mr-4">
+
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+        Çalışanları Sıfırla
+    </button>
+
+</div>
+
+
+<div class="row">
+    <div class="col-6">
+        <label class="text-danger">@ViewBag.hata</label>
+        <form method="post">
+            <input class="form-control mt-2 mb-2" name="KAD" placeholder="Kullanıcı Adı" required />
+            <input type="password" class="form-control mt-2" name="PASS" placeholder="Parola" required />
+            <input type="text" class="form-control mt-2" name="ADI" placeholder="ADI" required />
+            <input type="text" class="form-control mt-2" name="SOYADI" placeholder="SOYADI" required />
+            <input type="text" class="form-control mt-2" name="Email" placeholder="EMAİL ADRES" required />
+            <br />
+            <button class="btn btn-success" id="btnPost">Gönder</button>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Onay Veriyor musunuz ?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form method="post" class="d-flex justify-content-center">
+                    <input type="text" name="ADI" class="d-none" value="Sifirila" />
+                    <button class="btn btn-outline-secondary">Evet</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>

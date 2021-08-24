@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Db_MvcPersonelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Tbl_Gunler">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GUNLER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Vardiya" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Durum" Type="Boolean" />
+    <Property Name="CalisanKisi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Kullanici">
+    <Key>
+      <PropertyRef Name="KAD" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KAD" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PASS" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="ADI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="SOYADI" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ResimYolu" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ResimAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="Db_MvcPersonelEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Tbl_Gunler" EntityType="Self.Tbl_Gunler" />
+    <EntitySet Name="Tbl_Kullanici" EntityType="Self.Tbl_Kullanici" />
+    <EntitySet Name="sysdiagrams" EntityType="Db_MvcPersonelModel.sysdiagrams" />
+    <EntitySet Name="Tbl_CalismaTkvm" EntityType="Db_MvcPersonelModel.Tbl_CalismaTkvm" />
+    <EntitySet Name="Tbl_MsjKad" EntityType="Db_MvcPersonelModel.Tbl_MsjKad" />
+    <EntitySet Name="Tbl_Admin" EntityType="Db_MvcPersonelModel.Tbl_Admin" />
+    <EntitySet Name="Tbl_Duyuru" EntityType="Db_MvcPersonelModel.Tbl_Duyuru" />
+  </EntityContainer>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Tbl_CalismaTkvm">
+    <Key>
+      <PropertyRef Name="TakvimID" />
+    </Key>
+    <Property Name="TakvimID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserKad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CalismaGunu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CalismaTarihi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CaslimaVardiya" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Tbl_MsjKad">
+    <Key>
+      <PropertyRef Name="MesajID" />
+    </Key>
+    <Property Name="MesajID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Gonderen" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Alici" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MesajIcerigi" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Tarih" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Durum" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Tbl_Admin">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PASS" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Duyuru">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DuyuruBaslik" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DuyuruIcerik" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

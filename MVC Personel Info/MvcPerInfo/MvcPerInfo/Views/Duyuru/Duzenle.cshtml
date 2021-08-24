@@ -1,0 +1,38 @@
+﻿@using MvcPerInfo.Models.Entity
+@model List<Tbl_Duyuru>
+@{
+    ViewBag.Title = "Duzenle";
+    Layout = "~/Views/Shared/_YoneticiLayout.cshtml";
+}
+<br />
+<br />
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <td>
+                Duyuru Başlığı
+            </td>
+            <td>
+                Duyuru İçeriği
+            </td>
+            <td>
+                İşlemler
+            </td>
+        </tr>
+
+
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.DuyuruBaslik</td>
+                <td>@x.DuyuruIcerik</td>
+                <td>
+                    <a class="btn btn-danger btn-sm" href="/Duyuru/Sil/@x.ID">SİL</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

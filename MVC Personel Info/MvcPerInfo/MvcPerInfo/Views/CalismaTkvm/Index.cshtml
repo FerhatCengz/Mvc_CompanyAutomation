@@ -1,0 +1,30 @@
+﻿@using MvcPerInfo.Models.Entity;
+@model List<Tbl_CalismaTkvm>
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+
+
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>GÜN</th>
+            <th>VARDİYA</th>
+            <th>TARİH</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.CalismaGunu</td>
+                <td>@x.CaslimaVardiya</td>
+                <td>@x.CalismaTarihi</td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
