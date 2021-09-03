@@ -207,6 +207,7 @@
     <Content Include="Content\css.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Scripts\appMessage.js" />
+    <Content Include="Scripts\Cmd.js" />
     <Content Include="Scripts\dayjs.min.js" />
     <Content Include="Scripts\js.js" />
     <Content Include="Content\sweetalert2.min.css" />
