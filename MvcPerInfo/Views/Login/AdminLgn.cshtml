@@ -1,0 +1,24 @@
+﻿@using MvcPerInfo.Models.Entity
+@model List<Tbl_Admin>
+
+
+    <form>
+        <input type="text" class="form-control" name="KAD" id="v_Kad" />
+        <input type="password" class="form-control mt-3" name="PASS" id="v_Pass" />
+    </form>
+    <div class="d-flex justify-content-center">
+        <a class="btn bn-success" style="background-color:white !important;" id="btnYonetici">Giriş Yap</a>
+    </div>
+
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <script>
+        const V_Kad = document.getElementById("v_Kad");
+        const V_Pass = document.getElementById("v_Pass");
+
+        var requestData = {
+            KAD: $.trim(V_Kad.value),
+            PASS: $.trim(V_Pass.value),
+        }
+
+
+    </script>

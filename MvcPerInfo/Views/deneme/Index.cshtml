@@ -1,0 +1,12 @@
+﻿@using MvcPerInfo.Models.Entity
+@model List<Tbl_Gunler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@foreach (var x in Model)
+{
+    @x.GUNLER
+}

@@ -1,0 +1,113 @@
+﻿@using MvcPerInfo.Models.Entity
+@model List<Tbl_Duyuru>
+@{
+    ViewBag.Title = "Duyuru";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 3 | DataTables</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h3>Gelen Duyurular</h3>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            @{
+                                Db_MvcPersonelEntities db = new Db_MvcPersonelEntities();
+                                var users = Session["KAD"].ToString();
+                                var readCount = db.Tbl_Duyuru.Where(x => x.KAD == users).Count(x => x.Durum == true).ToString();
+
+                            }
+                            <a href="/PerIslem/readDuyuru" class="btn btn-primary text-white mb-4">Okunmuş Duyuruların <small class="badge bg-danger">@readCount</small></a>
+
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Duyuru Başlığı</th>
+                                        <th>Duyuru İçeriği</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var x in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @x.DuyuruBaslik
+                                            </td>
+                                            <td>
+                                                @x.DuyuruIcerik
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center">
+                                                    <a value="@x.ID" id="btnRead" class="btn btn-sm btn-success text-white">OKUNDU OLARAK <br /> İŞARETLE</a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <script src="~/Scripts/jquery-3.6.0.js"></script>
+    <!-- Bootstrap 4 -->
+    <!-- DataTables -->
+
+
+    <script>
+
+        $("#btnRead").click((e) => {
+            const id = e.target.getAttribute("value");
+            let requestData = {
+                ID: $.trim(id),
+            }
+            $.ajax({
+                url: "/PerIslem/Duyuru",
+                type: "POST",
+                data: JSON.stringify(requestData),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            });
+
+            location.reload();
+        });
+    </script>
+
+</body>
+</html>
+

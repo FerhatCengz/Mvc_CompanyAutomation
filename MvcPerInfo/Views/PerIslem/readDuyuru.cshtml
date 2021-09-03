@@ -1,0 +1,55 @@
+﻿@using MvcPerInfo.Models.Entity
+@model List<Tbl_Duyuru>
+@{
+    ViewBag.Title = "readDuyuru";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <td>Duyuru Başlığı</td>
+            <td>Duyuru İçeriği</td>
+            <td>İşlemler</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.DuyuruBaslik</td>
+                <td>@x.DuyuruIcerik</td>
+                <td>
+                    <div class="d-flex justify-content-center">
+                        <a value="@x.ID" class="btn btn-danger btn-sm text-white" id="btnDelte">Sil</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/jquery-3.6.0.js"></script>
+
+<script>
+    $("#btnDelte").click((e) => {
+        let idTut = e.target.getAttribute("value");
+
+        var requestData = {
+            ID: $.trim(idTut),
+        }
+
+        $.ajax({
+            url: "/PerIslem/readDuyuru",
+            type: "POST",
+            data: JSON.stringify(requestData),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+        });
+
+        location.reload();
+
+    });
+</script>
+

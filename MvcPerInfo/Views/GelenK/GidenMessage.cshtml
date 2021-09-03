@@ -1,0 +1,251 @@
+﻿
+@using MvcPerInfo.Models.Entity;
+@model PagedList<Tbl_MsjKad>
+@using PagedList
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "GidenMessage";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Header (Page header) -->
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Mesaj Paneli</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="nav nav-pills flex-column">
+                                <li class="nav-item active">
+                                    <a href="/GelenK/Index/" class="nav-link">
+                                        <i class="fas fa-inbox"></i> Gelen Kutusu
+                                        <span class="badge bg-primary float-right">@ViewBag.GELENKUTUSU</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/GelenK/GidenMessage/" class="nav-link">
+                                        <i class="far fa-envelope"></i> Giden İleti
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/GelenK/OkunmusMesajlar/" class="nav-link">
+                                        <i class="far fa-envelope"></i> Okunan Mesajlar
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/MesajList/Index/" class="nav-link">
+                                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        İleti Oluştur
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">Giden İletiler</h3>
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" placeholder="Search Mail">
+                                    <div class="input-group-append">
+                                        <div class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body p-0">
+                            <div class="mailbox-controls">
+                                <div class="btn-group d-flex justify-content-around">
+                                    <button id="btnDelete" type="button" class="btn btn-default btn-sm">Sil &nbsp;<i class="fas fa-trash"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm">Tümünü Sil &nbsp;<i class="far fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                            <div class="table-responsive mailbox-messages">
+                                <table class="table table-hover table-striped">
+                                    <tbody>
+                                        @foreach (var x in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="icheck-primary">
+                                                        <input type="checkbox" value="@x.MesajID" class="checkBox" id="check1">
+                                                        <label for="check1"></label>
+                                                    </div>
+                                                </td>
+                                                <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
+                                                <td class="mailbox-name"><a href="/GelenK/MessageRead/@x.MesajID" class="messageInfo">@x.Gonderen</a></td>
+                                                <td class="mailbox-subject">
+                                                    <p class="messageShow">
+                                                        @x.MesajIcerigi
+
+                                                    </p>
+                                                </td>
+                                                <td class="mailbox-attachment"></td>
+                                                <td class="mailbox-date">@x.Tarih</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <!-- /.table -->
+                            </div>
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.card-body -->
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <div class="d-flex justify-content-center">
+
+        @Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("GidenMessage", new { sayfa }))
+    </div>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            //Enable check and uncheck all functionality
+            $('.checkbox-toggle').click(function () {
+                var clicks = $(this).data('clicks')
+                if (clicks) {
+                    //Uncheck all checkboxes
+                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+                    $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+                } else {
+                    //Check all checkboxes
+                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+                    $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+                }
+                $(this).data('clicks', !clicks)
+            })
+
+            //Handle starring for glyphicon and font awesome
+            $('.mailbox-star').click(function (e) {
+                e.preventDefault()
+                //detect type
+                var $this = $(this).find('a > i')
+                var glyph = $this.hasClass('glyphicon')
+                var fa = $this.hasClass('fa')
+
+                //Switch states
+                if (glyph) {
+                    $this.toggleClass('glyphicon-star')
+                    $this.toggleClass('glyphicon-star-empty')
+                }
+
+                if (fa) {
+                    $this.toggleClass('fa-star')
+                    $this.toggleClass('fa-star-o')
+                }
+            })
+        })
+
+    </script>
+
+
+    <script>
+
+        let diziID = [];
+        let sayac = 0;
+        $(".checkBox").click(function (e) {
+
+            if (e.target.checked === true) {
+                sayac++;
+                const valueCheck = e.target.getAttribute("value");
+                diziID.push(valueCheck);
+                console.log(diziID);
+            }
+            else {
+                const idDiziSil = e.target.value;
+                const silenecekNo = diziID.indexOf(idDiziSil);
+                //delete diziID[silenecekNo];
+                diziID.splice(silenecekNo, 1);
+
+
+            }
+        });
+
+
+        $("#btnDelete").click(function (e) {
+            for (var i = 0; i <= diziID.length - 1; i++) {
+
+                $.ajax({
+                    url: "/GelenK/TekTekSil",
+                    type: "POST",
+                    data: JSON.stringify({ MesajId: diziID[i] }),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                });
+
+
+            }
+
+            setTimeout(function () {
+                window.location.reload();
+            }, 1000);
+
+        });
+
+
+        $(".fa-trash-alt").click(function () {
+
+
+            $.ajax({
+                url: "/GelenK/MesajSilGelenK",
+                type: "POST",
+                data: JSON.stringify({ MesajId: 1 }),
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            });
+            setTimeout(() => { window.location.reload(); }, 1000)
+        });
+
+        let getir = $(".messageShow");
+
+        for (var i = 0; i < 500; i++) {
+
+            if (getir[i].textContent.length >= 190) {
+
+                let algit = getir[i].textContent.substring(57, 136) + " . . . ";
+                getir[i].textContent = algit;
+            }
+
+
+
+        }
+
+
+
+
+    </script>
+</body>
+</html>

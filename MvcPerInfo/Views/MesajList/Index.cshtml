@@ -1,0 +1,50 @@
+﻿@using MvcPerInfo.Models.Entity
+@model List<Tbl_Kullanici>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link href="~/Content/css.css" rel="stylesheet" />
+
+<br />
+<br />
+<br />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-body contacts_body">
+                    <ui class="contacts">
+
+                        @foreach (var x in Model)
+                        {
+                            <li class="active">
+                                <div class="d-flex bd-highlight">
+                                    <div class="img_cont">
+
+                                        <img src="@x.ResimYolu" class="rounded-circle user_img" value="@x.KAD">
+
+                                    </div>
+                                    <div class="user_info">
+                                        <span>@x.KAD</span>
+                                        <p>@x.ADI&nbsp;@x.SOYADI</p>
+                                        <a href="/SohbetBaslat/Index/@x.KAD" class="btn btn-success btn-sm">MESAJ GÖNDER</a>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+
+                    </ui>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
